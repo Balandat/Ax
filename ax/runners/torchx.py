@@ -175,6 +175,12 @@ try:
                 indices = trial_statuses.setdefault(trial_status, set())
                 indices.add(trial.index)
 
+                # Print log lines from runner
+                if app_status.is_terminal():
+                    status = torchx_runner.wait(app_handle, wait_interval=1)
+                    for line in torchx_runner.log_lines(app_handle, "trainer", k=0):
+                        print(line, end="")
+
             return trial_statuses
 
         def stop(
